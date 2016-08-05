@@ -1,0 +1,101 @@
+
+
+.scrapy-weibo{
+  position: fixed;
+  right:0;
+  top:0;
+  width:300px;
+  bottom:0;
+  padding: 50px 10px 50px 10px;
+  background: #FFFFFF;
+  font-family: "Microsoft YaHei UI";
+  border-left:4px solid #CCCCCC;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s ;
+  -ms-transition: all 0.5s ;
+  -o-transition: all 0.5s ;
+  transition: all 0.5s ;
+  &.showItem{
+    right:-240px;
+  }
+    button,a,p,li,div{
+      font-family: inherit;
+    }
+    .hide{
+      margin-top: 15px;
+      button{
+        background: #5599ff;
+        padding: 5px 10px;
+        border:none;
+        border-radius: 3px;
+        color: #FFFFFF;
+        &:hover{
+          cursor: pointer;
+        }
+      }
+    }
+    h3{
+      margin-top: 15px;
+      font-size: 1.5em;
+      padding-bottom: 10px;
+    }
+    .set{
+      font-size: 14px;
+      margin-top: 10px;
+      input{
+        padding: 3px 5px;
+        margin: 0 8px;
+        width: 50px;
+        text-align: center;
+      }
+      button{
+        padding: 5px 20px;
+        border:1px solid #CCCCCC;
+        border-radius: 3px;
+        background: #FFFFFF;
+        margin-left:10px;
+        &:hover{
+          cursor: pointer;
+        }
+      }
+    }
+  .controll{
+    margin-top: 10px;
+    button{
+      padding: 8px 20px;
+      border:1px solid #CCCCCC;
+      border-radius: 3px;
+      background: #FFFFFF;
+      margin-right: 10px;
+      &:hover{
+        cursor: pointer;
+      }
+      &.active{
+        background: #5599ff;
+        color: #FFFFFF;
+      }
+    }
+  }
+  .infos{
+    margin-top: 10px;
+    ul{
+      line-height: 1.5;
+      font-size: 14px;
+    }
+  }
+
+  .lookDetails{
+    margin-top: 20px;
+    a{
+      background: #5599ff;
+      color: #FFFFFF;
+      padding: 5px 20px;
+      border-radius: 3px;
+    }
+  }
+
+
+}
+
+
+

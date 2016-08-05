@@ -1,0 +1,76 @@
+.scrapy-weibo {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 300px;
+  bottom: 0;
+  padding: 50px 10px 50px 10px;
+  background: #FFFFFF;
+  font-family: "Microsoft YaHei UI";
+  border-left: 4px solid #CCCCCC;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -ms-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  transition: all 0.5s; }
+  .scrapy-weibo.showItem {
+    right: -240px; }
+  .scrapy-weibo button, .scrapy-weibo a, .scrapy-weibo p, .scrapy-weibo li, .scrapy-weibo div {
+    font-family: inherit; }
+  .scrapy-weibo .hide {
+    margin-top: 15px; }
+    .scrapy-weibo .hide button {
+      background: #5599ff;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 3px;
+      color: #FFFFFF; }
+  .scrapy-weibo h3 {
+    margin-top: 15px;
+    font-size: 1.5em;
+    padding-bottom: 10px; }
+  .scrapy-weibo .set {
+    font-size: 14px;
+    margin-top: 10px; }
+    .scrapy-weibo .set input {
+      padding: 3px 5px;
+      margin: 0 8px;
+      width: 50px;
+      text-align: center; }
+    .scrapy-weibo .set button {
+      padding: 5px 20px;
+      border: 1px solid #CCCCCC;
+      border-radius: 3px;
+      background: #FFFFFF;
+      margin-left: 10px; }
+      .scrapy-weibo .set button:hover {
+        cursor: pointer; }
+  .scrapy-weibo .controll {
+    margin-top: 10px; }
+    .scrapy-weibo .controll button {
+      padding: 8px 20px;
+      border: 1px solid #CCCCCC;
+      border-radius: 3px;
+      background: #FFFFFF;
+      margin-right: 10px; }
+      .scrapy-weibo .controll button:hover {
+        cursor: pointer; }
+      .scrapy-weibo .controll button.active {
+        background: #5599ff;
+        color: #FFFFFF; }
+  .scrapy-weibo .infos {
+    margin-top: 10px; }
+    .scrapy-weibo .infos ul {
+      line-height: 1.5;
+      font-size: 14px; }
+  .scrapy-weibo .lookDetails {
+    margin-top: 20px; }
+    .scrapy-weibo .lookDetails a {
+      background: #5599ff;
+      color: #FFFFFF;
+      padding: 5px 20px;
+      border-radius: 3px; }
+
+
+
+/*# sourceMappingURL=style.css.map */

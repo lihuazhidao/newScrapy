@@ -1,0 +1,27 @@
+﻿
+{
+  "name": "Plugins",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "description": "plugins",
+  "browser_action": {
+    "default_icon": {
+      "19": "images/icon_19.png",
+      "38": "images/icon_38.png"
+    },
+    "default_title": "Marker"
+
+  },
+  "permissions": [
+      "http://weibo.com/*",
+      "http://m.weibo.cn/*"
+  ],
+  "content_scripts": [{
+    "matches": [
+      "http://weibo.com/*",
+      "http://m.weibo.cn/*"
+    ],
+    "css": ["style.css"],
+    "js": ["app.js"]
+  }]
+}
