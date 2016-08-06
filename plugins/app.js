@@ -50,13 +50,19 @@
 
 	var _jquery2 = _interopRequireDefault(_jquery);
 
-	var _weibo = __webpack_require__(1);
+	var _weiboList = __webpack_require__(5);
+
+	var _weiboList2 = _interopRequireDefault(_weiboList);
+
+	var _weiboUser = __webpack_require__(6);
+
+	var _weiboUser2 = _interopRequireDefault(_weiboUser);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	/**
-	 * Created by zhichaoshen on 2016/8/4.
-	 */
+	var uri = window.location; /**
+	                            * Created by zhichaoshen on 2016/8/4.
+	                            */
 
 	/*
 	*
@@ -66,12 +72,20 @@
 	* 微博PC weibo.com
 	* */
 
-	var uri = window.location;
 	var host = uri.host.toLowerCase();
 
-	window.onload = function () {
+	//微博用户
+	var weiboUserPattern = /http:\/\/m\.weibo\.cn\/u\d*/;
 
-	  var weiboList = new _weibo.WeiboList();
+	//微博正文
+	var weiboMainPattern = /http:\/\/m\.weibo\.cn\/\d*\/\d*/;
+
+	//微博列表
+	var weiboListPattern = /http:\/\/m\.weibo\.cn\/page\/.*/;
+
+	window.onload = function () {
+	  // var weiboList=new WeiboList();
+	  var weiboUser = new _weiboUser2.default();
 	};
 
 /***/ },
@@ -83,7 +97,6 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.WeiboDetails = exports.WeiboList = exports.WeiboSearch = undefined;
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /**
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * Created by zhichaoshen on 2016/8/5.
@@ -109,10 +122,6 @@
 	var _lodash2 = _interopRequireDefault(_lodash);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -228,201 +237,7 @@
 	    return Weibo;
 	}();
 
-	var WeiboSearch = exports.WeiboSearch = function (_Weibo) {
-	    _inherits(WeiboSearch, _Weibo);
-
-	    function WeiboSearch() {
-	        _classCallCheck(this, WeiboSearch);
-
-	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(WeiboSearch).call(this));
-
-	        _this.getUrl = "xxx";
-	        _this.postUrl = "xxxx";
-	        return _this;
-	    }
-
-	    //开始
-
-
-	    _createClass(WeiboSearch, [{
-	        key: 'start',
-	        value: function start() {}
-
-	        //结束
-
-	    }, {
-	        key: 'stop',
-	        value: function stop() {}
-	    }, {
-	        key: 'getData',
-	        value: function getData() {}
-	    }, {
-	        key: 'parseData',
-	        value: function parseData() {}
-	    }]);
-
-	    return WeiboSearch;
-	}(Weibo);
-
-	var WeiboList = exports.WeiboList = function (_Weibo2) {
-	    _inherits(WeiboList, _Weibo2);
-
-	    function WeiboList() {
-	        _classCallCheck(this, WeiboList);
-
-	        //时间间隔
-	        var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(WeiboList).call(this));
-
-	        _this2.speed = 8000; //爬去速度
-	        _this2.pageCount = 10;
-	        //获取地址
-	        _this2.getUrl = "http://m.weibo.cn/page/json";
-	        //传递地址
-	        _this2.postUrl = "xxxx";
-	        //请求参数
-	        var config = (0, _jquery2.default)("#box + script").html();
-	        eval(config);
-	        //请求参数
-	        _this2.params = {
-	            containerid: window.$config.stageId,
-	            page: 1
-	        };
-
-	        console.log(_this2.params);
-	        _this2.methods = {
-	            "click #start": function clickStart(event) {
-	                _this2.start();
-	            },
-	            "click #stop": function clickStop(event) {
-	                _this2.stop();
-	            },
-	            "click #set": function clickSet(event) {
-	                _this2.setSpeed();
-	            },
-	            "click #hide": function clickHide(event) {
-	                _this2.hide();
-	            },
-	            "click #show": function clickShow(event) {
-	                _this2.show();
-	            }
-	        };
-
-	        _this2.bindEvents(_this2.methods);
-
-	        return _this2;
-	    }
-
-	    //开始爬取
-
-
-	    _createClass(WeiboList, [{
-	        key: 'start',
-	        value: function start() {
-	            var _this3 = this;
-
-	            this.startState = true;
-	            this.upDateUI();
-	            this.timeHandle = setInterval(function () {
-	                _this3.getData(_this3.getUrl, _this3.params, function (data) {
-	                    //如果当前页大于总页数 则停止采集 仅当当前页不为第一页的时候
-	                    if (_this3.params.page < 0 || _this3.params.page != 1 && _this3.params.page > _this3.totalPage) {
-	                        _this3.stop();
-	                        console.log('collect end');
-	                        _this3.upDateUI();
-	                        return;
-	                    }
-
-	                    //统计总条数
-	                    if (_this3.params.page == 1) {
-	                        _this3.total = data.count; //总条数
-	                        _this3.totalPage = data.cards[0].maxPage; //总页数
-	                        _this3.allTime = _this3.total * _this3.speed; //采集时间
-	                    }
-
-	                    //如果返回内容不为空
-	                    if (data.cards[0].mod_type == "mod/pagelist" && data.count != "") {
-	                        console.log(data);
-	                        var postParams = _this3.parseData(data);
-	                        var lists = {
-	                            lists: postParams
-	                        };
-	                        var tempPage = _this3.params.page;
-	                        _this3.params.page++;
-	                        _this3.postData(_this3.postUrl, lists, function (data) {
-	                            _this3.hasCollect = data.collectNum;
-	                            _this3.missing = tempPage * _this3.pageCount - _this3.hasCollect;
-	                            _this3.lessTime = (_this3.total - _this3.pageCount * tempPage) * _this3.speed;
-	                            _this3.upDateUI();
-	                            console.log(data.msg);
-	                        });
-	                    } else {
-	                        //如果返回内容为空或者错误，重新发起请求，页数回退
-	                        _this3.params.page--;
-	                    }
-	                });
-	            }, 8000);
-	        }
-	    }, {
-	        key: 'stop',
-	        value: function stop() {
-	            this.startState = false;
-	            this.upDateUI();
-	            clearInterval(this.timeHandle);
-	        }
-	    }, {
-	        key: 'parseData',
-	        value: function parseData(data) {
-	            var cardGroup = data.cards[0].card_group; //获取card_group
-	            var lists = _lodash2.default.map(cardGroup, function (d) {
-	                return d.mblog;
-	            }); //获取weibolists
-	            lists = _lodash2.default.map(lists, function (e) {
-	                //过滤获取所需信息
-	                return {
-	                    appid: e.appid,
-	                    attitudes_count: e.attitudes_count,
-	                    attitudes_status: e.attitudes_status,
-	                    created_at: e.created_at,
-	                    created_timestamp: e.created_timestamp,
-	                    mid: e.mid,
-	                    id: e.id,
-	                    text: e.text,
-	                    textLength: e.textLength,
-	                    source: e.source,
-	                    source_type: e.source_type,
-	                    comments_count: e.comments_count,
-	                    pic_ids: e.pic_ids,
-	                    pics: e.pics ? e.pics : []
-	                };
-	            });
-	            console.log(lists);
-	            return lists;
-	        }
-	    }]);
-
-	    return WeiboList;
-	}(Weibo);
-
-	var WeiboDetails = exports.WeiboDetails = function (_Weibo3) {
-	    _inherits(WeiboDetails, _Weibo3);
-
-	    function WeiboDetails() {
-	        _classCallCheck(this, WeiboDetails);
-
-	        var _this4 = _possibleConstructorReturn(this, Object.getPrototypeOf(WeiboDetails).call(this));
-
-	        _this4.getUrl = "xxx";
-	        _this4.postUrl = "xxxx";
-	        return _this4;
-	    }
-
-	    _createClass(WeiboDetails, [{
-	        key: 'parseData',
-	        value: function parseData() {}
-	    }]);
-
-	    return WeiboDetails;
-	}(Weibo);
+	exports.default = Weibo;
 
 /***/ },
 /* 2 */
@@ -26873,6 +26688,363 @@
 		return module;
 	}
 
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _jquery = __webpack_require__(2);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	var _lodash = __webpack_require__(3);
+
+	var _lodash2 = _interopRequireDefault(_lodash);
+
+	var _weibo = __webpack_require__(1);
+
+	var _weibo2 = _interopRequireDefault(_weibo);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Created by zhichaoshen on 2016/8/5.
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+
+	var WeiboList = function (_Weibo) {
+	    _inherits(WeiboList, _Weibo);
+
+	    function WeiboList() {
+	        _classCallCheck(this, WeiboList);
+
+	        //时间间隔
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(WeiboList).call(this));
+
+	        _this.speed = 8000; //爬去速度
+	        _this.pageCount = 10;
+	        //获取地址
+	        _this.getUrl = "http://m.weibo.cn/page/json";
+	        //传递地址
+	        _this.postUrl = "xxxx";
+	        //请求参数
+	        var config = (0, _jquery2.default)("#box + script").html();
+	        eval(config);
+	        //请求参数
+	        _this.params = {
+	            containerid: window.$config.stageId,
+	            page: 1
+	        };
+
+	        console.log(_this.params);
+	        _this.methods = {
+	            "click #start": function clickStart(event) {
+	                _this.start();
+	            },
+	            "click #stop": function clickStop(event) {
+	                _this.stop();
+	            },
+	            "click #set": function clickSet(event) {
+	                _this.setSpeed();
+	            },
+	            "click #hide": function clickHide(event) {
+	                _this.hide();
+	            },
+	            "click #show": function clickShow(event) {
+	                _this.show();
+	            }
+	        };
+
+	        _this.bindEvents(_this.methods);
+
+	        return _this;
+	    }
+
+	    //开始爬取
+
+
+	    _createClass(WeiboList, [{
+	        key: 'start',
+	        value: function start() {
+	            var _this2 = this;
+
+	            this.startState = true;
+	            this.upDateUI();
+	            this.timeHandle = setInterval(function () {
+	                _this2.getData(_this2.getUrl, _this2.params, function (data) {
+	                    //如果当前页大于总页数 则停止采集 仅当当前页不为第一页的时候
+	                    if (_this2.params.page < 0 || _this2.params.page != 1 && _this2.params.page > _this2.totalPage) {
+	                        _this2.stop();
+	                        console.log('collect end');
+	                        _this2.upDateUI();
+	                        return;
+	                    }
+
+	                    //统计总条数
+	                    if (_this2.params.page == 1) {
+	                        _this2.total = data.count; //总条数
+	                        _this2.totalPage = data.cards[0].maxPage; //总页数
+	                        _this2.allTime = _this2.total * _this2.speed; //采集时间
+	                    }
+
+	                    //如果返回内容不为空
+	                    if (data.cards[0].mod_type == "mod/pagelist" && data.count != "") {
+	                        console.log(data);
+	                        var postParams = _this2.parseData(data);
+	                        var lists = {
+	                            lists: postParams
+	                        };
+	                        var tempPage = _this2.params.page;
+	                        _this2.params.page++;
+	                        _this2.postData(_this2.postUrl, lists, function (data) {
+	                            _this2.hasCollect = data.collectNum;
+	                            _this2.missing = tempPage * _this2.pageCount - _this2.hasCollect;
+	                            _this2.lessTime = (_this2.total - _this2.pageCount * tempPage) * _this2.speed;
+	                            _this2.upDateUI();
+	                            console.log(data.msg);
+	                        });
+	                    } else {
+	                        //如果返回内容为空或者错误，重新发起请求，页数回退
+	                        _this2.params.page--;
+	                    }
+	                });
+	            }, 8000);
+	        }
+	    }, {
+	        key: 'stop',
+	        value: function stop() {
+	            this.startState = false;
+	            this.upDateUI();
+	            clearInterval(this.timeHandle);
+	        }
+	    }, {
+	        key: 'parseData',
+	        value: function parseData(data) {
+	            var cardGroup = data.cards[0].card_group; //获取card_group
+	            var lists = _lodash2.default.map(cardGroup, function (d) {
+	                return d.mblog;
+	            }); //获取weibolists
+	            lists = _lodash2.default.map(lists, function (e) {
+	                //过滤获取所需信息
+	                return {
+	                    appid: e.appid,
+	                    attitudes_count: e.attitudes_count,
+	                    attitudes_status: e.attitudes_status,
+	                    created_at: e.created_at,
+	                    created_timestamp: e.created_timestamp,
+	                    mid: e.mid,
+	                    id: e.id,
+	                    text: e.text,
+	                    textLength: e.textLength,
+	                    source: e.source,
+	                    source_type: e.source_type,
+	                    comments_count: e.comments_count,
+	                    pic_ids: e.pic_ids,
+	                    pics: e.pics ? e.pics : []
+	                };
+	            });
+	            console.log(lists);
+	            return lists;
+	        }
+	    }]);
+
+	    return WeiboList;
+	}(_weibo2.default);
+
+	exports.default = WeiboList;
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * Created by zhichaoshen on 2016/8/6.
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      */
+
+	var _jquery = __webpack_require__(2);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	var _lodash = __webpack_require__(3);
+
+	var _lodash2 = _interopRequireDefault(_lodash);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	/*
+	*
+	*uid:String,//用户uid
+	 img:String,//头像
+	 desc:String,//用户简介
+	 username:String,//用户名
+	 fans:Number,//粉丝量
+	 lists:Number,//微博数量
+	 views:Number,//关注量,
+	 weiboList:[]//发布微博
+	* */
+
+	var WeiboUser = function () {
+	    function WeiboUser() {
+	        var _this = this;
+
+	        _classCallCheck(this, WeiboUser);
+
+	        //用户
+	        this.user = {};
+	        this.user.weiboList = [];
+	        this.toDownload = undefined;
+	        this.hideState = true;
+	        this.created = false;
+	        this.parseData();
+	        this.constructorUI();
+	        this.methods = {
+	            "click #create": function clickCreate(event) {
+	                _this.create();
+	            },
+	            "click #hide": function clickHide(event) {
+	                _this.hide();
+	            },
+	            "click #show": function clickShow(event) {
+	                _this.show();
+	            }
+	        };
+	        this.bindEvents(this.methods);
+	        this.checkHasCreate();
+	    }
+
+	    _createClass(WeiboUser, [{
+	        key: 'constructorUI',
+	        value: function constructorUI() {
+	            var template = '\n            <span class="scrapy-wrapper-weibo-user" id="scrapy-wrapper-weibo-user" >\n                <div class="scrapy-user-info ' + (this.hideState ? "" : "showItem") + '" id="scrapy-user-info">\n                   <div class="hide">\n                      ' + (this.hideState ? '' : '<button id="show">Show</button>') + '\n                      ' + (this.hideState ? '<button id="hide">Hide</button> ' : '') + '\n                    </div>\n                    <h3 class="user">用户：' + this.user.username + '</h3>\n                    <ul class="user-info-list">\n                        <li><img src="' + this.user.img + '" alt=""></li>\n                        <li>uid：' + this.user.uid + '</li>\n                        <li>用户： ' + this.user.username + '</li>\n                        <li>粉丝：' + this.user.fans + '</li>\n                        <li>微博：' + this.user.weibo + '</li>\n                        <li>关注：' + this.user.views + '</li>\n                        <li>简介：' + this.user.desc + '</li>\n                    </ul>\n                    <div class="controll">\n                        ' + (this.created ? ' <button id="created">该用户已经创建</button>' : '  <button id="create">创建用户</button>') + '\n                      <div class="goDetails">\n                        <a href="' + this.toDownload + '">去下载用户微博</a>\n                    </div>\n                </div>\n            </span>\n            ';
+	            (0, _jquery2.default)("body").append(template);
+	        }
+	    }, {
+	        key: 'upDateUI',
+	        value: function upDateUI() {
+	            var template = '\n                  <div class="scrapy-user-info ' + (this.hideState ? "" : "showItem") + '" id="scrapy-user-info">\n                   <div class="hide">\n                      ' + (this.hideState ? '' : '<button id="show">Show</button>') + '\n                      ' + (this.hideState ? '<button id="hide">Hide</button> ' : '') + '\n                    </div>\n                    <h3 class="user">用户：' + this.user.username + '</h3>\n                    <ul class="user-info-list">\n                        <li><img src="' + this.user.img + '" alt=""></li>\n                        <li>uid：' + this.user.uid + '</li>\n                        <li>用户： ' + this.user.username + '</li>\n                        <li>粉丝：' + this.user.fans + '</li>\n                        <li>微博：' + this.user.weibo + '</li>\n                        <li>关注：' + this.user.views + '</li>\n                        <li>简介：' + this.user.desc + '</li>\n                    </ul>\n                    <div class="controll">\n                        ' + (this.created ? ' <button id="created">该用户已经创建</button>' : '  <button id="create">创建用户</button>') + '\n                    </div>\n                      <div class="goDetails">\n                        <a href="' + this.toDownload + '">去下载用户微博</a>\n                    </div>\n                </div>';
+	            (0, _jquery2.default)("#scrapy-wrapper-weibo-user").html(template);
+	        }
+	    }, {
+	        key: 'bindEvents',
+	        value: function bindEvents(methods) {
+	            _lodash2.default.each(methods, function (func, key) {
+	                var event = key.split(" ")[0];
+	                var dom = key.split(" ")[1];
+	                (0, _jquery2.default)("#scrapy-wrapper-weibo-user").delegate(dom, event, func);
+	            });
+	        }
+
+	        //隐藏
+
+	    }, {
+	        key: 'hide',
+	        value: function hide() {
+	            this.hideState = false;
+	            this.upDateUI();
+	        }
+	        //展示
+
+	    }, {
+	        key: 'show',
+	        value: function show() {
+	            this.hideState = true;
+	            this.upDateUI();
+	        }
+	    }, {
+	        key: 'checkHasCreate',
+	        value: function checkHasCreate() {
+	            var _this2 = this;
+
+	            _jquery2.default.ajax({
+	                url: 'http://192.168.0.236:3000/weibo/user/' + this.user.uid,
+	                type: 'GET',
+	                dataType: 'json',
+	                success: function success(data) {
+	                    if (data.state) {
+	                        _this2.created = true;
+	                        _this2.upDateUI();
+	                    }
+	                },
+	                error: function error(err) {
+	                    console.log(err);
+	                }
+	            });
+	        }
+
+	        //创建user
+
+	    }, {
+	        key: 'create',
+	        value: function create() {
+	            var _this3 = this;
+
+	            var userData = {
+	                user: this.user
+	            };
+
+	            _jquery2.default.ajax({
+	                url: 'http://192.168.0.236:3000/weibo/user',
+	                data: JSON.stringify(userData),
+	                type: 'POST',
+	                dataType: 'json',
+	                contentType: 'application/json',
+	                success: function success(data) {
+	                    if (data.state) {
+	                        _this3.created = true;
+	                        _this3.upDateUI();
+	                    }
+	                },
+	                error: function error(err) {
+	                    console.log(err);
+	                }
+	            });
+	        }
+
+	        //解析html
+
+	    }, {
+	        key: 'parseData',
+	        value: function parseData() {
+
+	            this.user.img = (0, _jquery2.default)(".media-main img").attr("src");
+	            this.user.username = (0, _jquery2.default)(".box-col.item-list .item-main span").html();
+	            this.user.desc = (0, _jquery2.default)("a[data-node-type='desc']").text();
+	            this.user.uid = (0, _jquery2.default)("a[data-node-type='desc']").attr("href").split("/")[2];
+	            this.user.weibo = (0, _jquery2.default)(".layout-box > a:eq(1) div:first").text();
+	            this.user.weibo = parseInt(this.user.weibo);
+	            this.toDownload = (0, _jquery2.default)(".layout-box > a:eq(1)").attr("href");
+	            this.user.views = (0, _jquery2.default)(".layout-box > a:eq(2) div:first").text();
+	            this.user.views = parseInt(this.user.views);
+	            this.user.fans = (0, _jquery2.default)(".layout-box > a:eq(3) div:first").text();
+	            this.user.fans = this.user.fans.replace("万", "000");
+	            this.user.fans = parseInt(this.user.fans);
+	        }
+	    }]);
+
+	    return WeiboUser;
+	}();
+
+	exports.default = WeiboUser;
 
 /***/ }
 /******/ ]);

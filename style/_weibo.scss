@@ -1,6 +1,6 @@
 
 
-.scrapy-weibo{
+@mixin wrapper{
   position: fixed;
   right:0;
   top:0;
@@ -15,6 +15,32 @@
   -ms-transition: all 0.5s ;
   -o-transition: all 0.5s ;
   transition: all 0.5s ;
+}
+
+
+@mixin  controllerButton{
+  padding: 8px 20px;
+  border:1px solid #CCCCCC;
+  border-radius: 3px;
+  background: #FFFFFF;
+  margin-right: 10px;
+}
+
+@mixin controllerButtonActive{
+  background: #5599ff;
+  color: #FFFFFF;
+
+}
+
+
+@mixin aLink{
+  background: #5599ff;
+  color: #FFFFFF;
+  padding: 5px 20px;
+  border-radius: 3px;
+}
+.scrapy-weibo{
+  @include  wrapper;
   &.showItem{
     right:-240px;
   }
@@ -62,17 +88,12 @@
   .controll{
     margin-top: 10px;
     button{
-      padding: 8px 20px;
-      border:1px solid #CCCCCC;
-      border-radius: 3px;
-      background: #FFFFFF;
-      margin-right: 10px;
+      @include  controllerButton;
       &:hover{
         cursor: pointer;
       }
       &.active{
-        background: #5599ff;
-        color: #FFFFFF;
+      @include  controllerButtonActive;
       }
     }
   }
@@ -87,13 +108,68 @@
   .lookDetails{
     margin-top: 20px;
     a{
-      background: #5599ff;
-      color: #FFFFFF;
-      padding: 5px 20px;
-      border-radius: 3px;
+      @include  aLink;
     }
   }
 
+
+}
+
+
+.scrapy-user-info{
+  @include  wrapper;
+  &.showItem{
+    right:-240px;
+  }
+  button,a,p,li,div{
+    font-family: inherit;
+  }
+  .hide{
+    margin-top: 15px;
+    button{
+      background: #5599ff;
+      padding: 5px 10px;
+      border:none;
+      border-radius: 3px;
+      color: #FFFFFF;
+      &:hover{
+        cursor: pointer;
+      }
+    }
+  }
+  h3{
+    margin-top: 15px;
+    font-size: 1.5em;
+    padding-bottom: 10px;
+  }
+
+  .user-info-list{
+    margin-top: 10px;
+    line-height: 1.5;
+    font-size: 14px;
+  }
+  .controll{
+    margin-top: 10px;
+    button{
+      @include  controllerButton;
+      &:hover{
+        cursor: pointer;
+        background: #5599ff;
+      }
+      &.active{
+        @include  controllerButtonActive;
+      }
+    }
+
+
+  }
+
+  .goDetails{
+    margin-top: 20px;
+    a{
+      @include  aLink;
+    }
+  }
 
 }
 

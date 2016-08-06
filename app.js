@@ -17,15 +17,37 @@
 
 
 import $ from 'jquery';
-import {WeiboSearch,WeiboList,WeiboDetails} from './weibo/weibo';
+import WeiboList from './weibo/weiboList';
+import WeiboUser from './weibo/weiboUser';
 
 
 let uri=window.location;
 let host=uri.host.toLowerCase();
 
-window.onload=function(){
+//微博用户
+var weiboUserPattern=/http:\/\/m\.weibo\.cn\/u\d*/;
 
-    var weiboList=new WeiboList();
+//微博正文
+var weiboMainPattern=/http:\/\/m\.weibo\.cn\/\d*\/\d*/;
+
+
+
+//微博列表
+var weiboListPattern=/http:\/\/m\.weibo\.cn\/page\/.*/;
+
+
+
+
+
+
+window.onload=function(){
+    // var weiboList=new WeiboList();
+    var weiboUser=new WeiboUser();
+
+
+
+
+
 
 }
 
