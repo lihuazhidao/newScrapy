@@ -13,6 +13,17 @@
   -ms-transition: all 0.5s;
   -o-transition: all 0.5s;
   transition: all 0.5s; }
+  .scrapy-weibo .none {
+    display: none;
+    visibility: hidden;
+    opacity: 0; }
+  .scrapy-weibo .create-user {
+    margin-top: 15px; }
+    .scrapy-weibo .create-user a {
+      background: #5599ff;
+      color: #FFFFFF;
+      padding: 5px 20px;
+      border-radius: 3px; }
   .scrapy-weibo.showItem {
     right: -240px; }
   .scrapy-weibo button, .scrapy-weibo a, .scrapy-weibo p, .scrapy-weibo li, .scrapy-weibo div {
@@ -119,7 +130,8 @@
       background: #FFFFFF;
       margin-right: 10px; }
       .scrapy-user-info .controll button:hover {
-        cursor: pointer; }
+        cursor: pointer;
+        background: #5599ff; }
       .scrapy-user-info .controll button.active {
         background: #5599ff;
         color: #FFFFFF; }

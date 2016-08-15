@@ -4,7 +4,7 @@
 
 import $ from 'jquery';
 import _ from 'lodash';
-
+import {checkExistUser} from './weiboCommon';
 /*
 *
 *uid:String,//用户uid
@@ -24,6 +24,9 @@ export default class WeiboUser{
      //用户
      this.user={};
      this.user.weiboList=[];
+     this.user.fansList=[];
+     this.user.viewsList=[];
+     this.user.missing=0;//采集微博丢失条数
      this.toDownload=undefined;
      this.hideState=true;
      this.created=false;
@@ -123,21 +126,15 @@ export default class WeiboUser{
         this.upDateUI();
     }
 
+
+
     checkHasCreate(){
-        $.ajax({
-            url:`http://192.168.0.236:3000/weibo/user/${this.user.uid}`,
-            type:'GET',
-            dataType:'json',
-            success:(data)=>{
-                if(data.state){
-                    this.created=true;
-                    this.upDateUI();
-                }
-            },
-            error:(err)=>{
-                console.log(err);
+        checkExistUser(this.user.uid,(data)=>{
+            if(data.state){
+                this.created=true;
+                this.upDateUI();
             }
-        });
+        })
     }
 
     //创建user
@@ -170,7 +167,6 @@ export default class WeiboUser{
 
     //解析html
     parseData() {
-
             this.user.img=$(".media-main img").attr("src");
             this.user.username=$(".box-col.item-list .item-main span").html();
             this.user.desc=$("a[data-node-type='desc']").text();
@@ -183,13 +179,5 @@ export default class WeiboUser{
             this.user.fans=$(".layout-box > a:eq(3) div:first").text();
             this.user.fans=this.user.fans.replace("万","000");
             this.user.fans=parseInt(this.user.fans);
-
-
     }
-
-
-
-
-
-
 }

@@ -41,6 +41,19 @@
 }
 .scrapy-weibo{
   @include  wrapper;
+  .none{
+    display: none;
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  .create-user{
+    margin-top: 15px;
+    a{
+      @include  aLink;
+    }
+  }
+
   &.showItem{
     right:-240px;
   }

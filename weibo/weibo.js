@@ -15,13 +15,18 @@
 
 import $ from 'jquery';
 import _ from 'lodash';
-
+import {checkExistUser} from './weiboCommon';
+import {timeStatistics} from '../common/common';
 
 
 export default class Weibo{
 
 
     constructor() {
+
+        //微博用户
+        this.user={};
+        this.created=false;
         this.startState=false;
         this.hideState=true;
         this.total=0;//总条数
@@ -29,7 +34,6 @@ export default class Weibo{
         this.allTime=0;//所有采集时间
         this.lessTime=0;//采集剩余时间
         this.hasCollect=0;//已经采集条数
-        this.missing=0;//丢失多少条
         this.speed=0;//采集时间间隔
         this.order=true;//采集顺序
         this.pageCount=0;//每页条数
@@ -48,27 +52,32 @@ export default class Weibo{
                           ${this.hideState?'':'<button id="show">Show</button>'}
                           ${this.hideState?'<button id="hide">Hide</button> ':''}
                         </div>
-                        <h3>个人微博列表</h3>
-                        <div class="set">
-                            <label for="speed">采集速度：</label><input type="text" value="${this.speed/1000}">秒/条
-                            <button id="set">设置</button>
+                        <div class="${this.created?"":"none"}">
+                            <h3>个人微博列表</h3>
+                            <div class="set">
+                                <label for="speed">采集速度：</label><input type="text" value="${this.speed/1000}">秒/条
+                                <button id="set">设置</button>
+                            </div>
+                            <div class="controll">
+                                <button id="start" class="${this.startState?"active":""}">Start</button>
+                                <button id="stop"  class="${this.startState?"":"active"}">End</button>
+                            </div>
+                            <div class="infos">
+                                <ul>
+                                    <li>总计：${this.total}条</li>
+                                    <li>已经爬取：${this.hasCollect}条</li>
+                                    <li>遗漏：${this.user.missing}条</li>
+                                    <li>爬取速度：${this.speed/1000}秒/10条</li>
+                                    <li>总计时间：${timeStatistics(this.allTime)}</li>
+                                    <li>预计剩余时间：${timeStatistics(this.lessTime)}</li>
+                                </ul>
+                            </div>
+                            <div class="lookDetails">
+                                <a href="http://192.168.0.236:3000/weibo/users" target="_blank">lookDetails</a>
+                            </div>
                         </div>
-                        <div class="controll">
-                            <button id="start" class="${this.startState?"active":""}">Start</button>
-                            <button id="stop"  class="${this.startState?"":"active"}">End</button>
-                        </div>
-                        <div class="infos">
-                            <ul>
-                                <li>总计：${this.total}条</li>
-                                <li>已经爬取：${this.total}条</li>
-                                <li>遗漏：${this.total}条</li>
-                                <li>爬取速度：${this.total}条</li>
-                                <li>总计时间：${this.total}ms</li>
-                                <li>预计剩余时间：${this.total}ms</li>
-                            </ul>
-                        </div>
-                        <div class="lookDetails">
-                            <a href="###">lookDetails</a>
+                        <div  class="create-user ${this.created?"none":""}">
+                            <a href="http://m.weibo.cn/u/${this.user.uid}?jumpfrom=weibocom">GO创建用户</a>
                         </div>
                     </div>
                 </div>
@@ -78,14 +87,14 @@ export default class Weibo{
     }
 
     upDateUI(){
-
         var updateHtml=`
-                        <div id="scrapy-weibo" class="scrapy-weibo ${this.hideState?"":"showItem"}">
-                            <div class="wrap">
-                                <div class="hide">
-                                  ${this.hideState?'':'<button id="show">Show</button>'}
-                                  ${this.hideState?'<button id="hide">Hide</button> ':''}
-                                </div>
+                     <div id="scrapy-weibo" class="scrapy-weibo ${this.hideState?"":"showItem"}">
+                        <div class="wrap">
+                            <div class="hide">
+                              ${this.hideState?'':'<button id="show">Show</button>'}
+                              ${this.hideState?'<button id="hide">Hide</button> ':''}
+                            </div>
+                            <div class="${this.created?"":"none"}">
                                 <h3>个人微博列表</h3>
                                 <div class="set">
                                     <label for="speed">采集速度：</label><input type="text" value="${this.speed/1000}">秒/条
@@ -99,17 +108,21 @@ export default class Weibo{
                                     <ul>
                                         <li>总计：${this.total}条</li>
                                         <li>已经爬取：${this.hasCollect}条</li>
-                                        <li>遗漏：${this.missing}条</li>
-                                        <li>爬取速度：${this.speed/1000}条/秒</li>
-                                        <li>总计时间：${this.allTime}ms</li>
-                                        <li>预计剩余时间：${this.lessTime}ms</li>
+                                        <li>遗漏：${this.user.missing}条</li>
+                                        <li>爬取速度：${this.speed/1000}秒/10条</li>
+                                        <li>总计时间：${timeStatistics(this.allTime)}</li>
+                                        <li>预计剩余时间：${timeStatistics(this.lessTime)}</li>
                                     </ul>
                                 </div>
                                 <div class="lookDetails">
-                                    <a href="###">lookDetails</a>
+                                     <a href="http://192.168.0.236:3000/weibo/users" target="_blank">lookDetails</a>
                                 </div>
                             </div>
+                            <div  class="create-user ${this.created?"none":""}">
+                               <a href="http://m.weibo.cn/u/${this.user.uid}?jumpfrom=weibocom">GO创建用户</a>
+                            </div>
                         </div>
+                     </div>
                         `;
 
             $("#scrapy-wrapper-weibo").html(updateHtml);
@@ -124,6 +137,18 @@ export default class Weibo{
         });
     }
 
+
+    checkHasCreate(){
+        checkExistUser(this.user.uid,(data)=>{
+            if(data.state){
+                this.created=true;
+                this.user.missing=data.missing;
+                this.upDateUI();
+            }else{
+                this.upDateUI();
+            }
+        })
+    }
 
     hide(){
         this.hideState=false;
@@ -162,7 +187,7 @@ export default class Weibo{
             error:(err)=>{
                 console.log(err);
             }
-        })
+        });
         //返回状态和已经采集条数
         /*
         *
