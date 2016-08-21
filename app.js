@@ -19,6 +19,7 @@
 import $ from 'jquery';
 import WeiboList from './weibo/weiboList';
 import WeiboUser from './weibo/weiboUser';
+import WeiboPiece from './weibo/weiboPiece';
 
 
 let uri=window.location;
@@ -77,7 +78,7 @@ window.onload=function(){
                    var weiboUser=new WeiboUser();
                     break;
                case 'WEIBOCONTENT':
-                    ;
+                  var weiboPiece=new WeiboPiece();
                     break;
                case 'WEIBOLIST':
                    var weiboList=new WeiboList();

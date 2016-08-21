@@ -16,6 +16,7 @@
       "http://weibo.com/*",
       "http://m.weibo.cn/*",
       "http://192.168.0.236:3000/*",
+      "http://127.0.0.1:3000/*",
       "http://localhost:3000/*"
   ],
   "content_scripts": [{
@@ -23,6 +24,7 @@
       "http://weibo.com/*",
       "http://m.weibo.cn/*",
       "http://192.168.0.236:3000/*",
+      "http://127.0.0.1:3000/*",
       "http://localhost:3000/*"
     ],
     "css": ["style.css"],

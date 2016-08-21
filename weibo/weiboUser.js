@@ -129,7 +129,7 @@ export default class WeiboUser{
 
 
     checkHasCreate(){
-        checkExistUser(this.user.uid,(data)=>{
+        checkExistUser(this.user.uid).done((data)=>{
             if(data.state){
                 this.created=true;
                 this.upDateUI();
@@ -145,7 +145,7 @@ export default class WeiboUser{
         };
 
         $.ajax({
-            url:'http://192.168.0.236:3000/weibo/user',
+            url:'http://127.0.0.1:3000/weibo/user',
             data:JSON.stringify(userData),
             type:'POST',
             dataType:'json',
@@ -165,6 +165,7 @@ export default class WeiboUser{
     }
 
 
+
     //解析html
     parseData() {
             this.user.img=$(".media-main img").attr("src");
@@ -172,12 +173,13 @@ export default class WeiboUser{
             this.user.desc=$("a[data-node-type='desc']").text();
             this.user.uid=$("a[data-node-type='desc']").attr("href").split("/")[2];
             this.user.weibo=$(".layout-box > a:eq(1) div:first").text();
+            this.user.weibo=this.user.weibo.replace("万","0000");
             this.user.weibo=parseInt(this.user.weibo);
             this.toDownload=$(".layout-box > a:eq(1)").attr("href");
             this.user.views=$(".layout-box > a:eq(2) div:first").text();
             this.user.views=parseInt(this.user.views);
             this.user.fans=$(".layout-box > a:eq(3) div:first").text();
-            this.user.fans=this.user.fans.replace("万","000");
+            this.user.fans=this.user.fans.replace("万","0000");
             this.user.fans=parseInt(this.user.fans);
     }
 }

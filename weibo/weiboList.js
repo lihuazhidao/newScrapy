@@ -16,11 +16,14 @@ export default class WeiboList extends Weibo{
         //获取地址
         this.getUrl="http://m.weibo.cn/page/json";
         //传递地址
-        this.postUrl="http://192.168.0.236:3000/weibo/lists";
+        this.postUrl="http://127.0.0.1:3000/weibo/lists";
         //请求参数
         var config=$("#box + script").html();
         eval(config)
         //请求参数
+
+
+
         this.params={
             containerid:window.$config.stageId,
             page:1
@@ -35,7 +38,15 @@ export default class WeiboList extends Weibo{
                 this.stop();
             },
             "click #set":(event)=>{
-                this.setSpeed()
+
+                var speed=$("#scrapy-wrapper-weibo #speed").val();
+                    speed=parseInt(speed)*1000;
+                var position=$("#scrapy-wrapper-weibo #position").val();
+                    position=parseInt(position);
+                //设置请求开始页数
+                var page=position?Math.floor(position/10):1;
+                this.params.page=page;
+                this.setOption(speed,position);
             },
             "click #hide":(event)=>{
                 this.hide();
@@ -131,7 +142,7 @@ export default class WeiboList extends Weibo{
         this.doGet();
         this.timeHandle=setInterval(()=>{
         this.doGet();
-        },8000)
+        },this.speed)
     }
 
     stop() {
@@ -157,7 +168,9 @@ export default class WeiboList extends Weibo{
                 text:e.text,
                 source:e.source,
                 pic_ids:e.pic_ids,
-                pics:(e.pics?e.pics:[])
+                pics:(e.pics?e.pics:[]),
+                comments:[],//评论内容
+                reposts:[]//转发内容
             }
         });
 

@@ -8,14 +8,21 @@ import  $ from 'jquery';
 
 
 
-export function checkExistUser(uid,success){
-    $.ajax({
-        url:`http://192.168.0.236:3000/weibo/checkuser/${uid}`,
+export function checkExistUser(uid){
+    return $.ajax({
+        url:`http://127.0.0.1:3000/weibo/checkuser/${uid}`,
         type:'GET',
-        dataType:'json',
-        success:success,
-        error:(err)=>{
-            console.log(err);
-        }
+        dataType:'json'
     });
+}
+
+
+
+
+export function checkExistWeibo(uid,bid){
+   return  $.ajax({
+        url:`http://127.0.0.1:3000/weibo/checkweibo/${uid}/${bid}`,
+        type:'GET',
+        dataType:'json'
+    })
 }

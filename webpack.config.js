@@ -9,16 +9,16 @@ module.exports = {
                 { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" }
             ]
   }
-  ,
-  plugins: [
-    new webpack.optimize.UglifyJsPlugin({
-                mangle: {
-                    except: ['$super', '$', 'exports', 'require']
-                },
-                compress: {
-                   drop_console:false
-                 }
-
-            })
-    ]
+  //,
+  //plugins: [
+  //  new webpack.optimize.UglifyJsPlugin({
+  //              mangle: {
+  //                  except: ['$super', '$', 'exports', 'require']
+  //              },
+  //              compress: {
+  //                 drop_console:false
+  //               }
+  //
+  //          })
+  //  ]
 }

@@ -25,6 +25,7 @@ export default class Weibo{
     constructor() {
 
         //微博用户
+
         this.user={};
         this.created=false;
         this.startState=false;
@@ -37,6 +38,7 @@ export default class Weibo{
         this.speed=0;//采集时间间隔
         this.order=true;//采集顺序
         this.pageCount=0;//每页条数
+        this.startPosition=0;//从第几条开始抓取
         this.timeHandle=undefined;
         this.dom="body";
         this.constructorUI();
@@ -55,7 +57,8 @@ export default class Weibo{
                         <div class="${this.created?"":"none"}">
                             <h3>个人微博列表</h3>
                             <div class="set">
-                                <label for="speed">采集速度：</label><input type="text" value="${this.speed/1000}">秒/条
+                                <label for="start">采集位置：</label><input id="position" type="text" value="${this.startPosition}"><br>
+                                <label for="speed">采集速度：</label><input id="speed" type="text" value="${this.speed/1000}">秒/条
                                 <button id="set">设置</button>
                             </div>
                             <div class="controll">
@@ -73,7 +76,7 @@ export default class Weibo{
                                 </ul>
                             </div>
                             <div class="lookDetails">
-                                <a href="http://192.168.0.236:3000/weibo/users" target="_blank">lookDetails</a>
+                                <a href="http://127.0.0.1:3000/weibo/users" target="_blank">lookDetails</a>
                             </div>
                         </div>
                         <div  class="create-user ${this.created?"none":""}">
@@ -97,8 +100,9 @@ export default class Weibo{
                             <div class="${this.created?"":"none"}">
                                 <h3>个人微博列表</h3>
                                 <div class="set">
-                                    <label for="speed">采集速度：</label><input type="text" value="${this.speed/1000}">秒/条
-                                    <button id="set">设置</button>
+                                <label for="start">采集位置：</label><input id="position" type="text" value="${this.startPosition}"><br>
+                                <label for="speed">采集速度：</label><input id="speed" type="text" value="${this.speed/1000}">秒/条
+                                <button id="set">设置</button>
                                 </div>
                                 <div class="controll">
                                     <button id="start" class="${this.startState?"active":""}">Start</button>
@@ -115,7 +119,7 @@ export default class Weibo{
                                     </ul>
                                 </div>
                                 <div class="lookDetails">
-                                     <a href="http://192.168.0.236:3000/weibo/users" target="_blank">lookDetails</a>
+                                     <a href="http://127.0.0.1:3000/weibo/users" target="_blank">lookDetails</a>
                                 </div>
                             </div>
                             <div  class="create-user ${this.created?"none":""}">
@@ -137,17 +141,21 @@ export default class Weibo{
         });
     }
 
-
     checkHasCreate(){
-        checkExistUser(this.user.uid,(data)=>{
+
+        checkExistUser(this.user.uid).done((data)=>{
             if(data.state){
                 this.created=true;
                 this.user.missing=data.missing;
+                this.hasCollect=data.hasCollect;
+                this.total=data.total;
+                this.totalPage=Math.floor(data.total/10);
                 this.upDateUI();
             }else{
                 this.upDateUI();
             }
-        })
+        });
+
     }
 
     hide(){
@@ -160,8 +168,10 @@ export default class Weibo{
     }
 
     //设置爬去速度
-    setSpeed(speed) {
+    setOption(speed,position) {
+
         this.speed=speed;
+        this.startPosition=position;
         this.upDateUI();
     }
 
@@ -172,7 +182,19 @@ export default class Weibo{
 
     //获取数据
     getData(url,params,success){
-        $.get(url,params,success,'json');
+
+        var ajax=$.ajax({
+            url:url,
+            type:"GET",
+            data:params,
+            dataType:'json',
+            timeout:this.speed,
+            success:success,
+            error:function(err){
+                console.log(err)
+            }
+        })
+
     }
 
     //传递数据
