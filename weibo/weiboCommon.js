@@ -26,3 +26,17 @@ export function checkExistWeibo(uid,bid){
         dataType:'json'
     })
 }
+
+
+export function createWeibo(data,uid){
+
+
+    return $.ajax({
+        url:`http://127.0.0.1:3000/weibo/createWeibo/${uid}`,
+        type:'POST',
+        data:JSON.stringify(data),
+        dataType:'json',
+        contentType:'application/json',
+    })
+
+}

@@ -170,7 +170,11 @@ export default class WeiboList extends Weibo{
                 pic_ids:e.pic_ids,
                 pics:(e.pics?e.pics:[]),
                 comments:[],//评论内容
-                reposts:[]//转发内容
+                reposts:[],//转发内容
+                hasCollectComment:0,
+                hasCollectRepost:0,
+                missingComment:0,
+                missingRepost:0
             }
         });
 

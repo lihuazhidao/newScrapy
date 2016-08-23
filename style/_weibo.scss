@@ -4,6 +4,7 @@
   position: fixed;
   right:0;
   top:0;
+  z-index: 10000000;
   width:300px;
   bottom:0;
   padding: 50px 10px 50px 10px;
@@ -40,6 +41,12 @@
   border-radius: 3px;
 }
 .scrapy-weibo{
+  h1{
+    font-size: 1.5em;
+    text-align: center;
+    padding: 5px 0;
+    color:#000000;
+  }
   @include  wrapper;
   .none{
     display: none;
@@ -52,6 +59,21 @@
     a{
       @include  aLink;
     }
+  }
+
+  .create-weibo{
+    margin-top:15px;
+      button{
+        background: #FFFFFF;
+        border:1px solid #CCCCCC;
+        padding: 5px 10px;
+        border-radius: 3px;
+        &:hover{
+          color: #FFFFFF;
+          background: #5599ff;
+        }
+      }
+
   }
 
   &.showItem{
@@ -185,6 +207,26 @@
   }
 
 }
+
+
+.weibo-piece{
+
+.weibo-info{
+  margin: 10px 0;
+  li {
+    text-align: left;
+    text-indent:2em;
+    line-height: 1.5;
+  }
+}
+
+
+
+}
+
+
+
+
 
 
 
